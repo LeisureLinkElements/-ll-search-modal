@@ -243,6 +243,44 @@ Example:
       //
       // This is the point where you should make modifications to the DOM (when
       // necessary), or kick off any processes the element wants to perform.
+
+        var events = [
+            { property: "Bear Lane", unit: "Bear Lane #4", bedrooms: "1BR", bathrooms: "2 Full", occupancy: "4" },
+            { property: "Rusty Creek", unit: "Rusty Creek #2", bedrooms: "2BR", bathrooms: "3 Full", occupancy: "8" }
+        ];
+//    var raw = document.getElementById("raw");
+        var themed  = document.getElementById("themed");
+//    raw.data = events;
+        themed.data = JSON.parse(JSON.stringify(events));//deep copy so that they have independent data source.
+        var table_log = function(msg) {
+            document.getElementById("console").innerHTML = msg;
+        };
+        themed.addEventListener('after-invalid', function(e) {
+            table_log('This field is required');
+            e.detail.row._editing=true;
+            e.detail.event.target.focus();
+        });
+        themed.addEventListener('after-create', function(e) {
+            table_log('created one record');
+        });
+        themed.addEventListener('after-remove', function(e) {
+            table_log('removed one record!');
+        });
+        themed.addEventListener('after-copy', function(e) {
+            table_log('copied one record!');
+        });
+        themed.addEventListener('after-save', function(e) {
+            table_log('saved one record!');
+        });
+        themed.addEventListener('after-move-down', function(e) {
+            table_log('moved one record down!');
+        });
+        themed.addEventListener('after-move-up', function(e) {
+            table_log('moved one record up!');
+        });
+        themed.customRenderer = function(datum, row, col, ahaTable) {
+            return datum.toUpperCase();
+        }
     },
 
     attached: function() {
@@ -278,6 +316,7 @@ Example:
     _open: function () {
       this.opened = true;
       this.$.curtain.open();
+      this.ready();
     },
     /**
      * closes modals
@@ -303,12 +342,41 @@ Example:
 </script>
 
 <script>
-var events = [
-    { property: "Bear Lane", unit: "Bear Lane #4", bedrooms: "1BR", bathrooms: "2 Full", occupancy: "4" },
-    { property: "Rusty Creek", unit: "Rusty Creek #2", bedrooms: "2BR", bathrooms: "3 Full", occupancy: "8" }
-];
-//    var raw = document.getElementById("raw");
-    var themed  = document.getElementById("themed");
-//    raw.data = events;
-    themed.data = JSON.parse(JSON.stringify(events));//deep copy so that they have independent data source.
+//var events = [
+//    { property: "Bear Lane", unit: "Bear Lane #4", bedrooms: "1BR", bathrooms: "2 Full", occupancy: "4" },
+//    { property: "Rusty Creek", unit: "Rusty Creek #2", bedrooms: "2BR", bathrooms: "3 Full", occupancy: "8" }
+//];
+////    var raw = document.getElementById("raw");
+//    var themed  = document.getElementById("themed");
+////    raw.data = events;
+//    themed.data = JSON.parse(JSON.stringify(events));//deep copy so that they have independent data source.
+//    var table_log = function(msg) {
+//        document.getElementById("console").innerHTML = msg;
+//    };
+//    themed.addEventListener('after-invalid', function(e) {
+//        table_log('This field is required');
+//        e.detail.row._editing=true;
+//        e.detail.event.target.focus();
+//    });
+//    themed.addEventListener('after-create', function(e) {
+//        table_log('created one record');
+//    });
+//    themed.addEventListener('after-remove', function(e) {
+//        table_log('removed one record!');
+//    });
+//    themed.addEventListener('after-copy', function(e) {
+//        table_log('copied one record!');
+//    });
+//    themed.addEventListener('after-save', function(e) {
+//        table_log('saved one record!');
+//    });
+//    themed.addEventListener('after-move-down', function(e) {
+//        table_log('moved one record down!');
+//    });
+//    themed.addEventListener('after-move-up', function(e) {
+//        table_log('moved one record up!');
+//    });
+//    themed.customRenderer = function(datum, row, col, ahaTable) {
+//        return datum.toUpperCase();
+//    }
 </script>
