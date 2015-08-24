@@ -1,4 +1,4 @@
-<style is="custom-style">
+/*<style is="custom-style">*/
 #themed::shadow table{
   color: #333;
   border-spacing: 0;
@@ -98,4 +98,4 @@
 #themed::shadow .move-up-er i:before {
   content:"\f062";
 }
-</style>
+/*</style>*/
