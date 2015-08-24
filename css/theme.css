@@ -98,4 +98,8 @@
 #themed::shadow .move-up-er i:before {
   content:"\f062";
 }
+
+.pagination {
+    margin: 0;
+}
 /*</style>*/

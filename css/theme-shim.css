@@ -3,7 +3,8 @@
   border-spacing: 0;
   border-collapse: collapse;
   font-size: 14px;
-  border: 1px solid #a0cfef;
+  /*border: 1px solid #a0cfef;*/
+  border: none;
 }
 #themed .pagination table, 
 #themed .pagination tr, 
@@ -45,6 +46,8 @@
 #themed .paging {
   display: block;
   float: left;
+  display: inline;
+
 }
 #themed .pagesize {
   display: block;
@@ -57,6 +60,7 @@
 #themed tfoot td {
   background-color: #fff;
     font-size: 1.1rem;
+    border: 2px solid #006600;
 }
 #themed .hint,
 #themed .search,
@@ -97,4 +101,13 @@
 }
 #themed .move-up-er i:before {
   content:"\f062";
+}
+
+.pagination {
+    margin: 0;
+}
+
+.tfoot, tfoot {
+    display: inline-block;
+    vertical-align: inherit;
 }
