@@ -10,7 +10,6 @@
 <link rel="import" href="../iron-icons/iron-icons.html">
 <link rel="import" href="../iron-icon/iron-icon.html">
 
-<link rel="import" href="aha-table.html">
 <link rel="import" href="../font-awesome/css/font-awesome.min.css">
 
 <link rel="import" href="../ll-theme/ll-theme.html">
@@ -19,7 +18,9 @@
 
 
 <!-- Importing Custom Elements for Aha-Table-->
-<link rel="import" href="aha-table.html">
+<link rel="import" href="../aha-table/dist/aha-table.html">
+
+<!--<link rel="import" href="aha-table.html">-->
 <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
 <!-- used when shadow dom is natively implemented -->
 <link rel="import" href="css/theme.css">
@@ -50,13 +51,12 @@ Example:
 
     i {
       color: #3697D3;
-        padding-left: 5px;
+      padding-left: 5px;
     }
 
-
     .fa-sort:before {
-        font-family: FontAwesome;
-        content: "\f0dc";
+      font-family: FontAwesome;
+      content: "\f0dc";
     }
 
   </style>
@@ -72,125 +72,22 @@ Example:
       </div>
       <div class="row">
         <div class="col-md-3">
-          <iron-icon icon="icons:search"></iron-icon><input is="iron-input" placeholder="Search Properties"/>
+          <iron-icon icon="icons:search"></iron-icon>
+          <input is="iron-input" placeholder="Search Properties"/>
         </div>
       </div>
 
-        <!--<aha-table id="raw"></aha-table>-->
+      <!--<aha-table id="raw"></aha-table>-->
 
       <div class="row">
         <div class="col-md-12">
 
-          <aha-table id="themed"
-
-                     selectable
-                     searchable
-                     copyable
-
-                     pagesize="10"
-                     data-sizelist="[2,5,10,20,50]"
-
-                     pagesizetext=""
-                     summarytext=""
-                     pagetext=""
-                     pageoftext="of"
-                     itemoftext="of"
-
-                     searchtitle="Show/Hide Filters"
-                     sorttitle="click to sort"
-                     selecttitle="click to select"
-                     selectalltitle="click to select/deselect all"
-                     edittitle="click to edit"
-                     copytitle="click to copy"
-                     removetitle="click to remove"
-                     movedowntitle="move down"
-                     moveuptitle="move up"
-                     searchtitle="click to show/hide search filters bar"
-                     firsttitle="First"
-                     previoustitle="Previous"
-                     nexttitle="Next"
-                     lasttitle="Last">
-
-              <aha-column name="Property"
-                          type="string"
-
-                          sortable
-                          searchable
-                          required
-
-                          searchplaceholder="Type to filter properties"
-                          placeholder="Properties"
-                          default="">
-                  <i class="fa fa-sort"></i>
-
-              </aha-column>
-
-              <aha-column name="Unit"
-                          type="string"
-
-                          sortable
-                          searchable
-                          required
-
-                          searchplaceholder="Type to filter units"
-                          placeholder="Unit"
-                          default="">
-              </aha-column>
-
-              <aha-column name="Floor Plan"
-                          type="choice"
-
-                          searchable
-                          sortable
-                          required
-
-                          placeholder="Event Type"
-                          default="condo"
-                          data-choices='{"":"", "condo":"Condo", "home":"Home", "studio":"Studio"}'>
-              </aha-column>
-
-              <aha-column name="Bedrooms"
-                          type="choice"
-
-                          searchable
-                          sortable
-                          required
-
-                          placeholder="No. of Bedrooms"
-                          default="studio"
-                          data-choices='{"":"", "studio":"Studio", "1BR":"1BR", "2BR":"2BR", "3BR":"3BR", "4BR":"4BR", "5BR":"5BR", "6BR":"6BR", "7BR":"7BR"}'>
-              </aha-column>
-
-              <aha-column name="Bathrooms"
-                          type="string"
-
-                          sortable
-                          searchable
-                          required
-
-                          searchplaceholder="Filter bathrooms"
-                          placeholder="No. of Bathrooms"
-                          default="1 Full">
-              </aha-column>
-
-              <aha-column name="Occupancy"
-                          type="choice"
-
-                          searchable
-                          sortable
-                          required
-
-                          placeholder="Max No. of Occupants"
-                          default="4"
-                          data-choices='{"":"", "1":"1", "2":"2", "3":"3", "4":"4", "5":"5", "6":"6", "7":"7", "8":"8", "9":"9", "10":"10", "11":"11", "12":"12"}'>
-              </aha-column>
-
-
+          <aha-table id="fees" selectable searchable>
+            <aha-column name="property" type="string" sortable></aha-column>
+            <aha-column name="unit" type="string" sortable></aha-column>
+            <aha-column name="bedrooms" type="string" sortable></aha-column>
+            <aha-column name="bathrooms" type="string" sortable></aha-column>
           </aha-table>
-
-          <!--<BUTTON id="create" onclick="themed.create();">Create</BUTTON>-->
-
-
         </div>
       </div>
       <div class="row">
@@ -199,7 +96,8 @@ Example:
             <button class="btn btn-default" on-tap="cancelClicked" dialog-dismiss>Cancel</button>
           </span>
           <span>
-            <button class="btn btn-primary" on-tap="saveClicked" dialog-confirm autofocus>Save Changes<i class="fa fa-check"></i></button>
+            <button class="btn btn-primary" on-tap="saveClicked" dialog-confirm autofocus>Save
+              Changes<i class="fa fa-check"></i></button>
           </span>
         </div>
       </div>
@@ -210,9 +108,9 @@ Example:
 </dom-module>
 
 <script>
-//  (function() {
-//    this._open();
-//  }());
+  //  (function() {
+  //    this._open();
+  //  }());
 
   var modal = document.querySelector('ll-search-modal');
   Polymer({
@@ -237,50 +135,16 @@ Example:
     // Element Lifecycle
 
     ready: function() {
-      // `ready` is called after all elements have been configured, but
-      // propagates bottom-up. This element's children are ready, but parents
-      // are not.
-      //
-      // This is the point where you should make modifications to the DOM (when
-      // necessary), or kick off any processes the element wants to perform.
 
-        var events = [
-            { property: "Bear Lane", unit: "Bear Lane #4", bedrooms: "1BR", bathrooms: "2 Full", occupancy: "4" },
-            { property: "Rusty Creek", unit: "Rusty Creek #2", bedrooms: "2BR", bathrooms: "3 Full", occupancy: "8" }
-        ];
-//    var raw = document.getElementById("raw");
-        var themed  = document.getElementById("themed");
-//    raw.data = events;
-        themed.data = JSON.parse(JSON.stringify(events));//deep copy so that they have independent data source.
-        var table_log = function(msg) {
-            document.getElementById("console").innerHTML = msg;
-        };
-        themed.addEventListener('after-invalid', function(e) {
-            table_log('This field is required');
-            e.detail.row._editing=true;
-            e.detail.event.target.focus();
-        });
-        themed.addEventListener('after-create', function(e) {
-            table_log('created one record');
-        });
-        themed.addEventListener('after-remove', function(e) {
-            table_log('removed one record!');
-        });
-        themed.addEventListener('after-copy', function(e) {
-            table_log('copied one record!');
-        });
-        themed.addEventListener('after-save', function(e) {
-            table_log('saved one record!');
-        });
-        themed.addEventListener('after-move-down', function(e) {
-            table_log('moved one record down!');
-        });
-        themed.addEventListener('after-move-up', function(e) {
-            table_log('moved one record up!');
-        });
-        themed.customRenderer = function(datum, row, col, ahaTable) {
-            return datum.toUpperCase();
-        }
+      this.$.fees.data = [
+        { property: "Bear Lane", unit: "Bear Lane #4", bedrooms: "1BR", bathrooms: "2 Full", occupancy: "4" },
+        { property: "Rusty Creek", unit: "Rusty Creek #2", bedrooms: "2BR", bathrooms: "3 Full", occupancy: "8" }
+      ];
+//
+//        var events = [
+//            { property: "Bear Lane", unit: "Bear Lane #4", bedrooms: "1BR", bathrooms: "2 Full", occupancy: "4" },
+//            { property: "Rusty Creek", unit: "Rusty Creek #2", bedrooms: "2BR", bathrooms: "3 Full", occupancy: "8" }
+//        ];
     },
 
     attached: function() {
@@ -313,7 +177,7 @@ Example:
      *
      * @private
      */
-    _open: function () {
+    _open: function() {
       this.opened = true;
       this.$.curtain.open();
       this.ready();
@@ -323,7 +187,7 @@ Example:
      *
      * @private
      */
-    _close: function () {
+    _close: function() {
       this.opened = false;
       this.$.curtain.close();
     },
@@ -333,7 +197,7 @@ Example:
       this._close();
     },
 
-    cancelClicked: function(){
+    cancelClicked: function() {
       console.log('cancelled!');
       this._close();
     }
@@ -341,42 +205,105 @@ Example:
 
 </script>
 
-<script>
-//var events = [
-//    { property: "Bear Lane", unit: "Bear Lane #4", bedrooms: "1BR", bathrooms: "2 Full", occupancy: "4" },
-//    { property: "Rusty Creek", unit: "Rusty Creek #2", bedrooms: "2BR", bathrooms: "3 Full", occupancy: "8" }
-//];
-////    var raw = document.getElementById("raw");
-//    var themed  = document.getElementById("themed");
-////    raw.data = events;
-//    themed.data = JSON.parse(JSON.stringify(events));//deep copy so that they have independent data source.
-//    var table_log = function(msg) {
-//        document.getElementById("console").innerHTML = msg;
-//    };
-//    themed.addEventListener('after-invalid', function(e) {
-//        table_log('This field is required');
-//        e.detail.row._editing=true;
-//        e.detail.event.target.focus();
-//    });
-//    themed.addEventListener('after-create', function(e) {
-//        table_log('created one record');
-//    });
-//    themed.addEventListener('after-remove', function(e) {
-//        table_log('removed one record!');
-//    });
-//    themed.addEventListener('after-copy', function(e) {
-//        table_log('copied one record!');
-//    });
-//    themed.addEventListener('after-save', function(e) {
-//        table_log('saved one record!');
-//    });
-//    themed.addEventListener('after-move-down', function(e) {
-//        table_log('moved one record down!');
-//    });
-//    themed.addEventListener('after-move-up', function(e) {
-//        table_log('moved one record up!');
-//    });
-//    themed.customRenderer = function(datum, row, col, ahaTable) {
-//        return datum.toUpperCase();
-//    }
-</script>
+
+<!--selectable-->
+<!--searchable-->
+<!--copyable-->
+
+<!--pagesize="10"-->
+<!--data-sizelist="[2,5,10,20,50]"-->
+
+<!--pagesizetext=""-->
+<!--summarytext=""-->
+<!--pagetext=""-->
+<!--pageoftext="of"-->
+<!--itemoftext="of"-->
+
+<!--searchtitle="Show/Hide Filters"-->
+<!--sorttitle="click to sort"-->
+<!--selecttitle="click to select"-->
+<!--selectalltitle="click to select/deselect all"-->
+<!--edittitle="click to edit"-->
+<!--copytitle="click to copy"-->
+<!--removetitle="click to remove"-->
+<!--movedowntitle="move down"-->
+<!--moveuptitle="move up"-->
+<!--searchtitle="click to show/hide search filters bar"-->
+<!--firsttitle="First"-->
+<!--previoustitle="Previous"-->
+<!--nexttitle="Next"-->
+<!--lasttitle="Last"-->
+
+<!--<aha-column name="Property"-->
+<!--type="string"-->
+
+<!--sortable-->
+<!--searchable-->
+<!--required-->
+
+<!--searchplaceholder="Type to filter properties"-->
+<!--placeholder="Properties"-->
+<!--default="">-->
+<!--<i class="fa fa-sort"></i>-->
+
+<!--</aha-column>-->
+
+<!--<aha-column name="Unit"-->
+<!--type="string"-->
+
+<!--sortable-->
+<!--searchable-->
+<!--required-->
+
+<!--searchplaceholder="Type to filter units"-->
+<!--placeholder="Unit"-->
+<!--default="">-->
+<!--</aha-column>-->
+
+<!--<aha-column name="Floor Plan"-->
+<!--type="choice"-->
+
+<!--searchable-->
+<!--sortable-->
+<!--required-->
+
+<!--placeholder="Event Type"-->
+<!--default="condo"-->
+<!--data-choices='{"":"", "condo":"Condo", "home":"Home", "studio":"Studio"}'>-->
+<!--</aha-column>-->
+
+<!--<aha-column name="Bedrooms"-->
+<!--type="choice"-->
+
+<!--searchable-->
+<!--sortable-->
+<!--required-->
+
+<!--placeholder="No. of Bedrooms"-->
+<!--default="studio"-->
+<!--data-choices='{"":"", "studio":"Studio", "1BR":"1BR", "2BR":"2BR", "3BR":"3BR", "4BR":"4BR", "5BR":"5BR", "6BR":"6BR", "7BR":"7BR"}'>-->
+<!--</aha-column>-->
+
+<!--<aha-column name="Bathrooms"-->
+<!--type="string"-->
+
+<!--sortable-->
+<!--searchable-->
+<!--required-->
+
+<!--searchplaceholder="Filter bathrooms"-->
+<!--placeholder="No. of Bathrooms"-->
+<!--default="1 Full">-->
+<!--</aha-column>-->
+
+<!--<aha-column name="Occupancy"-->
+<!--type="choice"-->
+
+<!--searchable-->
+<!--sortable-->
+<!--required-->
+
+<!--placeholder="Max No. of Occupants"-->
+<!--default="4"-->
+<!--data-choices='{"":"", "1":"1", "2":"2", "3":"3", "4":"4", "5":"5", "6":"6", "7":"7", "8":"8", "9":"9", "10":"10", "11":"11", "12":"12"}'>-->
+<!--</aha-column>-->

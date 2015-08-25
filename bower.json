@@ -20,17 +20,21 @@
     "/demo/"
   ],
   "dependencies": {
-    "polymer": "Polymer/polymer#^1.0.0",
-    "paper-elements": "PolymerElements/paper-elements#^1.0.0",
-    "neon-elements": "PolymerElements/neon-elements#^1.0.0",
-    "ll-theme": "LeisureLinkElements/ll-theme#~0.0.2",
-    "ll-paper-button": "LeisureLinkElements/ll-paper-button",
-    "ll-modal": "LeisureLinkElements/ll-modal",
     "aha-table": "~2.0.9",
-    "font-awesome": "~4.4.0"
+    "font-awesome": "~4.4.0",
+    "iron-ajax": "PolymerElements/iron-ajax#~1.0.4",
+    "ll-modal": "LeisureLinkElements/ll-modal",
+    "ll-paper-button": "LeisureLinkElements/ll-paper-button",
+    "ll-theme": "LeisureLinkElements/ll-theme#~0.0.2",
+    "neon-elements": "PolymerElements/neon-elements#^1.0.0",
+    "paper-elements": "PolymerElements/paper-elements#^1.0.0",
+    "polymer": "Polymer/polymer#^1.1.0"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
     "web-component-tester": "*"
+  },
+  "resolutions": {
+    "polymer": "^1.1.0"
   }
 }
