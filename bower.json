@@ -26,6 +26,7 @@
     "ll-modal": "LeisureLinkElements/ll-modal",
     "ll-paper-button": "LeisureLinkElements/ll-paper-button",
     "ll-theme": "LeisureLinkElements/ll-theme#~0.0.2",
+    "mercury-paginator": "~1.1.0",
     "neon-elements": "PolymerElements/neon-elements#^1.0.0",
     "paper-elements": "PolymerElements/paper-elements#^1.0.0",
     "polymer": "Polymer/polymer#^1.1.0"
