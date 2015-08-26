@@ -9,6 +9,7 @@
 <link rel="import" href="../iron-input/iron-input.html">
 <link rel="import" href="../iron-icons/iron-icons.html">
 <link rel="import" href="../iron-icon/iron-icon.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
 
 <link rel="import" href="../font-awesome/css/font-awesome.min.css">
 
@@ -54,15 +55,10 @@ Example:
       padding-left: 5px;
     }
 
-    .fa-sort:before {
-      font-family: FontAwesome;
-      content: "\f0dc";
-    }
 
   </style>
 
   <template>
-
 
     <paper-dialog id="curtain" modal entry-animation="slide-down-animation" exit-animation="slide-up-animation">
       <div class="row">
@@ -72,12 +68,9 @@ Example:
       </div>
       <div class="row">
         <div class="col-md-3">
-          <iron-icon icon="icons:search"></iron-icon>
-          <input is="iron-input" placeholder="Search Properties"/>
+          <iron-icon icon="icons:search"></iron-icon><input is="iron-input" placeholder="Search Properties"/>
         </div>
       </div>
-
-      <!--<aha-table id="raw"></aha-table>-->
 
       <div class="row">
         <div class="col-md-12">
@@ -90,17 +83,6 @@ Example:
           </aha-table>
         </div>
       </div>
-      <div class="row">
-        <div class="col-md-offset-9">
-          <span>
-            <button class="btn btn-default" on-tap="cancelClicked" dialog-dismiss>Cancel</button>
-          </span>
-          <span>
-            <button class="btn btn-primary" on-tap="saveClicked" dialog-confirm autofocus>Save
-              Changes<i class="fa fa-check"></i></button>
-          </span>
-        </div>
-      </div>
     </paper-dialog>
 
   </template>
@@ -108,43 +90,95 @@ Example:
 </dom-module>
 
 <script>
-  //  (function() {
-  //    this._open();
-  //  }());
-
   var modal = document.querySelector('ll-search-modal');
   Polymer({
     is: 'll-search-modal',
 
     properties: {
+      listeners: {
+        'click': 'toggle'
+      },
       opened: {
         type: Boolean,
         value: false
       },
-      listeners: {
-        'click': 'toggle'
+      pmcId: {
+        type: String,
+        value: ''
       },
-
-      /**
-       * `fancy` indicates that the element should don a monocle and tophat,
-       * while checking its pocket watch.
+      /** Required for a PUT
        */
-      fancy: Boolean
+      unitId: {
+        type: String,
+        value: ''
+      },
+      listingId: {
+        type: String,
+        value: ''
+      },
+      /**
+       * Url for retrieving a list of taxes or fees based on id
+       */
+      getUrl: {
+        type: String,
+        value: ''
+      },
+      /**
+       * Url for editing a tax and fee associations
+       */
+      editUrl: {
+        type: String,
+        value: ''
+      },
+      /**
+       * Url for creating a new association between tax/fee and listing
+       */
+      createUrl: {
+        type: String,
+        value: ''
+      }
     },
 
     // Element Lifecycle
 
-    ready: function() {
+    ready: function () {
 
       this.$.fees.data = [
-        { property: "Bear Lane", unit: "Bear Lane #4", bedrooms: "1BR", bathrooms: "2 Full", occupancy: "4" },
-        { property: "Rusty Creek", unit: "Rusty Creek #2", bedrooms: "2BR", bathrooms: "3 Full", occupancy: "8" }
+        {property: "Bear Lane", unit: "Bear Lane #4", bedrooms: "1BR", bathrooms: "2 Full", occupancy: "4"},
+        {property: "Rusty Creek", unit: "Rusty Creek #2", bedrooms: "2BR", bathrooms: "3 Full", occupancy: "8"}
       ];
-//
-//        var events = [
-//            { property: "Bear Lane", unit: "Bear Lane #4", bedrooms: "1BR", bathrooms: "2 Full", occupancy: "4" },
-//            { property: "Rusty Creek", unit: "Rusty Creek #2", bedrooms: "2BR", bathrooms: "3 Full", occupancy: "8" }
-//        ];
+
+      var fees = document.getElementById("fees");
+//      fees.data = JSON.parse(JSON.stringify(events));//deep copy so that they have independent data source.
+//      var table_log = function (msg) {
+//        document.getElementById("console").innerHTML = msg;
+
+      fees.addEventListener('after-invalid', function (e) {
+        table_log('This field is required');
+        e.detail.row._editing = true;
+        e.detail.event.target.focus();
+      });
+      fees.addEventListener('after-create', function (e) {
+        table_log('created one record');
+      });
+      fees.addEventListener('after-remove', function (e) {
+        table_log('removed one record!');
+      });
+      fees.addEventListener('after-copy', function (e) {
+        table_log('copied one record!');
+      });
+      fees.addEventListener('after-save', function (e) {
+        table_log('saved one record!');
+      });
+      fees.addEventListener('after-move-down', function (e) {
+        table_log('moved one record down!');
+      });
+      fees.addEventListener('after-move-up', function (e) {
+        table_log('moved one record up!');
+      });
+      fees.customRenderer = function (datum, row, col, ahaTable) {
+        return datum.toUpperCase();
+      }
     },
 
     attached: function() {
@@ -177,7 +211,7 @@ Example:
      *
      * @private
      */
-    _open: function() {
+    _open: function () {
       this.opened = true;
       this.$.curtain.open();
       this.ready();
@@ -187,7 +221,7 @@ Example:
      *
      * @private
      */
-    _close: function() {
+    _close: function () {
       this.opened = false;
       this.$.curtain.close();
     },
@@ -197,7 +231,7 @@ Example:
       this._close();
     },
 
-    cancelClicked: function() {
+    cancelClicked: function () {
       console.log('cancelled!');
       this._close();
     }
