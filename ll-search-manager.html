@@ -3,12 +3,48 @@
 
 <dom-module id="ll-search-manager">
   <template>
-    <iron-ajax id="all" url="" handle-as="json"></iron-ajax>
+    <iron-ajax id="units" handle-as="json" on-response="_handleUnitsResponse" on-error="_handleError"></iron-ajax>
   </template>
 </dom-module>
 
 <script>
-  Polymer({
-    is: 'll-search-manager'
-  })
+  LLSearchManager = Polymer({
+    is: 'll-search-manager',
+
+    properties: {
+      pmcId: {
+        type: String,
+        observer: '_pmcIdChanged'
+      }
+    },
+
+    ready: function() {
+      LLSearchManager.EVENT_OPTIONS = { bubbles: false }
+    },
+
+    getUnits: function() {
+      this.$.units.generateRequest();
+    },
+
+    /**
+     * Observer to the PmcId property
+     * @private
+     * @param {String} pmcId
+     */
+    _pmcIdChanged: function(pmcId) {
+      var units = this.$.units;
+      units.url = '/accounts/' + pmcId + '/units';
+      units.generateRequest();
+    },
+
+    _handleUnitsResponse: function(e, detail) {
+      this.fire('units-received', detail.response, LLSearchManager.EVENT_OPTIONS);
+    },
+
+    _handleError: function(e, detail) {
+      this.fire('units-error', detail.response, LLSearchManager.EVENT_OPTIONS);
+    }
+
+
+  });
 </script>

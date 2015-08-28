@@ -16,6 +16,7 @@
 <link rel="import" href="../ll-theme/ll-theme.html">
 <link rel="import" href="../ll-paper-button/ll-paper-button.html">
 <link rel="import" href="../ll-modal/ll-modal.html">
+<link rel="import" href="ll-search-manager.html">
 
 <!-- Importing Custom Elements for Aha-Table-->
 <!--<link rel="import" href="../aha-table/dist/aha-table.html">-->
@@ -63,6 +64,8 @@ Example:
   </style>
 
   <template>
+    <ll-search-manager id="manager" on-units-received="_handleUnitsResponse"></ll-search-manager>
+
 
     <paper-dialog id="curtain" modal entry-animation="slide-down-animation" exit-animation="slide-up-animation">
       <div class="row">
@@ -237,6 +240,11 @@ Example:
     cancelClicked: function(){
       console.log('cancelled!');
       this._close();
+    },
+
+    _handleUnitsResponse: function(e, detail) {
+      // Do something with the units data
+      // this.$.fees.data
     }
   });
 
